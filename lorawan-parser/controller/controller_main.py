@@ -35,7 +35,7 @@ class Stream(QObject):
 
 class MyEncoder(json.JSONEncoder):
     """
-    格式化返回的dist,bytearr,bytes等
+    格式化返回的dict,bytearr,bytes等
     """
 
     def default(self, obj):
