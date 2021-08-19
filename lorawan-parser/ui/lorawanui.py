@@ -10,8 +10,19 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer, QDateTime
+from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QLabel
 
+
+class My_QPainTextEdit(QtWidgets.QPlainTextEdit):
+    def __init__(self, parent=None):
+        super(My_QPainTextEdit, self).__init__(parent)
+
+    def leaveEvent(self, QMouseEvent):
+        self.setPlainText(self.toPlainText().strip().replace(" ","").replace("\n","").replace("\t",""))
+        cursor = self.textCursor()
+        cursor.movePosition(QTextCursor.End)
+        self.setTextCursor(cursor)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -58,7 +69,8 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addWidget(self.txt_show_pain, 0, 0, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 0, 1, 7, 1)
-        self.txt_phy_pain = QtWidgets.QPlainTextEdit(self.centralwidget)
+        # self.txt_phy_pain = QtWidgets.QPlainTextEdit(self.centralwidget)
+        self.txt_phy_pain = My_QPainTextEdit(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
         font.setPointSize(10)
@@ -148,17 +160,16 @@ class Ui_MainWindow(object):
             pass
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "LoRaWAN报文解析器V1.0.1"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "LoRaWAN报文解析器V1.0.2"))
         self.label_2.setText(_translate("MainWindow", "APPSKEY："))
         self.label.setText(_translate("MainWindow", "PHYPayload:"))
         self.btn_parse.setText(_translate("MainWindow", "开始解析"))
         self.label_8.setText(_translate("MainWindow", "VERSION："))
         self.label_3.setText(_translate("MainWindow", "NWKSKEY："))
         self.label_9.setText(_translate("MainWindow", "详细显示："))
-        self.statusbar.setToolTip(_translate("MainWindow", "LoRaWAN报文解析器V1.0.1"))
+        self.statusbar.setToolTip(_translate("MainWindow", "LoRaWAN报文解析器V1.0.2"))
 
     def showCurrentTime(self, timeLabel):
         # 获取系统当前时间

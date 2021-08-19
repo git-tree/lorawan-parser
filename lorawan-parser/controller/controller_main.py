@@ -23,6 +23,7 @@ from PyQt5.QtWidgets import *
 from core.lorawan_a2b_hex import a2b_hex
 from core.lorawan_parser import parse_phy_pdu
 from ui.lorawanui import Ui_MainWindow
+from core.frame_utils import Utils
 
 
 class Stream(QObject):
@@ -42,7 +43,7 @@ class MyEncoder(json.JSONEncoder):
         if isinstance(obj, bytearray):
             return obj.hex()
         if isinstance(obj, bytes):
-            return int(obj.hex(),16)
+            return int(obj.hex(), 16)
         return json.JSONEncoder.default(self, obj)
 
 
@@ -63,6 +64,7 @@ class controller_main(QMainWindow, Ui_MainWindow):
         sys.stdout = Stream(newText=self.onUpdateText)
         self.ap = None
         self.opt = None
+        self.utils = Utils()
 
     def onUpdateText(self, text):
         """Write console output to text widget."""
@@ -88,18 +90,25 @@ class controller_main(QMainWindow, Ui_MainWindow):
         self.startParse()
 
     @pyqtSlot(int)
-    def on_cmb_version_activated(self,p):
+    def on_cmb_version_activated(self, p):
         """
         下拉框change事件
         """
         self.startParse()
 
+    def getStripPhyStr(self):
+        """
+        清空空格
+        """
+        return self.txt_phy_pain.toPlainText().strip().replace(" ", "")
+
     def startParse(self):
         """
         解析报文方法
         """
-        if self.txt_phy_pain.toPlainText() == "":
+        if self.getStripPhyStr() == "":
             self.txt_show_pain.setPlainText("请输入报文")
+            self.utils.doShakeWindow(self.txt_phy_pain)
             self.txt_phy_pain.setFocus()
             return
         self.ap = None
@@ -115,7 +124,7 @@ class controller_main(QMainWindow, Ui_MainWindow):
         # 清空历史数据
         self.txt_show_pain.setPlainText("")
         # 获取 phy
-        phy = self.txt_phy_pain.toPlainText()
+        phy = self.getStripPhyStr()
         # 获取复选框是否选中
         if self.check_v.isChecked():
             # 选中
