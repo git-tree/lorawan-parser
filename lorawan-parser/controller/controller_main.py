@@ -13,6 +13,7 @@
 """
 __author__ = '崔术森'
 
+import base64
 import json
 import sys
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
@@ -96,20 +97,35 @@ class controller_main(QMainWindow, Ui_MainWindow):
         """
         self.startParse()
 
-    def getStripPhyStr(self):
+    def getPhyStr(self):
         """
-        清空空格
+        获取输入的报文,对报文做检查
         """
-        return self.txt_phy_pain.toPlainText().strip().replace(" ", "")
+        input_str = self.txt_phy_pain.toPlainText()
+        if input_str == "" or input_str is None:
+            self.txt_show_pain.setPlainText("请输入报文")
+            self.utils.doShakeWindow(self.txt_phy_pain)
+            return None
+        elif self.utils.isBase64(input_str):
+            return base64.b64decode(input_str).decode()
+        else:
+            return input_str
+
+    def moveCursorToStart(self):
+        """
+        展示的textview焦点在最前
+        """
+        cursor = self.txt_show_pain.textCursor()
+        cursor.movePosition(QTextCursor.Start)
+        self.txt_show_pain.setTextCursor(cursor)
 
     def startParse(self):
         """
         解析报文方法
         """
-        if self.getStripPhyStr() == "":
-            self.txt_show_pain.setPlainText("请输入报文")
-            self.utils.doShakeWindow(self.txt_phy_pain)
-            self.txt_phy_pain.setFocus()
+        # 获取 phy
+        phy = self.getPhyStr()
+        if phy is None:
             return
         self.ap = None
         self.ap = ArgumentParser(
@@ -123,8 +139,6 @@ class controller_main(QMainWindow, Ui_MainWindow):
                              const=1, help="increase debug mode.")
         # 清空历史数据
         self.txt_show_pain.setPlainText("")
-        # 获取 phy
-        phy = self.getStripPhyStr()
         # 获取复选框是否选中
         if self.check_v.isChecked():
             # 选中
@@ -133,7 +147,7 @@ class controller_main(QMainWindow, Ui_MainWindow):
         else:
             self.ap.add_argument("-v", action="store_true", dest="verbose",
                                  help="enable verbose mode.", default=False)
-        # print("PHYPayload: {0}\n".format(phy))
+        print("PHYPayload: {0}\n".format(phy))
         # 获取nwkskey
         nwkskey = self.txt_nwkskey.text()
         # 获取appskey
@@ -157,11 +171,3 @@ class controller_main(QMainWindow, Ui_MainWindow):
             info = sys.exc_info()
             self.txt_show_pain.setPlainText(str(info[1]))
             self.moveCursorToStart()
-
-    def moveCursorToStart(self):
-        """
-        展示的textview焦点在最前
-        """
-        cursor = self.txt_show_pain.textCursor()
-        cursor.movePosition(QTextCursor.Start)
-        self.txt_show_pain.setTextCursor(cursor)

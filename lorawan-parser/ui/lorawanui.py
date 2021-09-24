@@ -19,10 +19,19 @@ class My_QPainTextEdit(QtWidgets.QPlainTextEdit):
         super(My_QPainTextEdit, self).__init__(parent)
 
     def leaveEvent(self, QMouseEvent):
-        self.setPlainText(self.toPlainText().strip().replace(" ","").replace("\n","").replace("\t",""))
+        self.setPlainText(self.toPlainText().strip().replace(" ", "").replace("\n", "").replace("\t", ""))
         cursor = self.textCursor()
         cursor.movePosition(QTextCursor.End)
         self.setTextCursor(cursor)
+
+
+class My_QLineEdit(QtWidgets.QLineEdit):
+    def __init__(self, parent=None):
+        super(My_QLineEdit, self).__init__(parent)
+
+    def leaveEvent(self, QMouseEvent):
+        self.setText(self.text().strip().replace(" ", "").replace("\n", "").replace("\t", ""))
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -43,7 +52,7 @@ class Ui_MainWindow(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_2)
-        self.txt_appskey = QtWidgets.QLineEdit(self.centralwidget)
+        self.txt_appskey = My_QLineEdit(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
         font.setPointSize(10)
@@ -118,7 +127,7 @@ class Ui_MainWindow(object):
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_3)
-        self.txt_nwkskey = QtWidgets.QLineEdit(self.centralwidget)
+        self.txt_nwkskey = My_QLineEdit(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
         font.setPointSize(10)
@@ -162,14 +171,14 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "LoRaWAN报文解析器V1.0.2"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "LoRaWAN报文解析器V1.0.3"))
         self.label_2.setText(_translate("MainWindow", "APPSKEY："))
         self.label.setText(_translate("MainWindow", "PHYPayload:"))
         self.btn_parse.setText(_translate("MainWindow", "开始解析"))
         self.label_8.setText(_translate("MainWindow", "VERSION："))
         self.label_3.setText(_translate("MainWindow", "NWKSKEY："))
         self.label_9.setText(_translate("MainWindow", "详细显示："))
-        self.statusbar.setToolTip(_translate("MainWindow", "LoRaWAN报文解析器V1.0.2"))
+        self.statusbar.setToolTip(_translate("MainWindow", "LoRaWAN报文解析器V1.0.3"))
 
     def showCurrentTime(self, timeLabel):
         # 获取系统当前时间

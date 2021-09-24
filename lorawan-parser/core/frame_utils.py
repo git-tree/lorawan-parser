@@ -14,6 +14,7 @@
 __author__ = '崔术森'
 
 from PyQt5.QtCore import QPropertyAnimation, QPoint
+import base64
 
 
 class Utils:
@@ -49,3 +50,10 @@ class Utils:
         animation.setEndValue(QPoint(x, y))
 
         animation.start(animation.DeleteWhenStopped)
+
+    def isBase64(self, s):
+        try:
+            base64.b64decode(s).decode()
+            return True
+        except:
+            return False
