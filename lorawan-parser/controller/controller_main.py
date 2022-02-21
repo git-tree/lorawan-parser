@@ -148,6 +148,8 @@ class controller_main(QMainWindow, Ui_MainWindow):
             self.ap.add_argument("-v", action="store_true", dest="verbose",
                                  help="enable verbose mode.", default=False)
         print("PHYPayload: {0}\n".format(phy))
+        # 获取appkey
+        appkey = self.input_appkey.text()
         # 获取nwkskey
         nwkskey = self.txt_nwkskey.text()
         # 获取appskey
@@ -161,6 +163,7 @@ class controller_main(QMainWindow, Ui_MainWindow):
                 phy_pdu=a2b_hex(phy, string_type=""),
                 nwkskey=a2b_hex(None if nwkskey is None or nwkskey == "" else nwkskey),
                 appskey=a2b_hex(None if appskey is None or appskey == "" else appskey),
+                appkey=a2b_hex(None if appkey is None or appkey == "" else appkey),
                 version=version,
                 option=self.opt
             )
