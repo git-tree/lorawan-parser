@@ -28,6 +28,7 @@ class My_QPainTextEdit(QtWidgets.QPlainTextEdit):
 class My_QLineEdit(QtWidgets.QLineEdit):
     def __init__(self, parent=None):
         super(My_QLineEdit, self).__init__(parent)
+        self.setClearButtonEnabled(True)
 
     def leaveEvent(self, QMouseEvent):
         self.setText(self.text().strip().replace(" ", "").replace("\n", "").replace("\t", ""))
