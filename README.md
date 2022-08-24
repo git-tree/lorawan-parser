@@ -5,13 +5,13 @@
 ## 截图
 [![截图](https://s1.ax1x.com/2022/08/17/vBYwGD.md.png)](https://imgtu.com/i/vBYwGD)
 ## 功能
-1. 解析入网请求00包 :tw-2705: 
-2. 解析入网回复20包 :tw-2705: 
-3. 解析confirm up类型80包 :tw-2705: 
-4. 解析unconfirm down类型60包 :tw-2705: 
-5. 解析unconfirm up类型40包 :tw-2705: 
-6. 解析confirm down类型A0包 :tw-2705: 
-7. 批量解析报文文件，暂未实现  :tw-274c: 
+1. 解析入网请求00包 :tw-2705:  :white_check_mark: 
+2. 解析入网回复20包 :tw-2705: :white_check_mark: 
+3. 解析confirm up类型80包 :tw-2705: :white_check_mark: 
+4. 解析unconfirm down类型60包 :tw-2705: :white_check_mark: 
+5. 解析unconfirm up类型40包 :tw-2705: :white_check_mark: 
+6. 解析confirm down类型A0包 :tw-2705: :white_check_mark: 
+7. 批量解析报文文件，暂未实现  :tw-274c:  :x: 
 
 ## 注意
 解析部分报文时需要appkey、nwkskey、appskey，否则可能无法完全解析成功。
